@@ -10,13 +10,14 @@ J Blaber, B Adair, A Antoniou. Ncorr: open-source 2D digital image correlation m
 
 ## Installation and Execution
 
-To install the software, clone the repository using the command below. Once the files are downloaded, navigate to the folder within the MATLAB environment and add the directory to your path.
+To install the software, clone the repository using the command below. Once the files are downloaded, navigate to the folder within the MATLAB environment and add the directory to your path. Make sure you have both the Image Processing and Statistics Toolboxes instaled in MATLAB before trying to open Ncorr.
 
 ```bash
-git clone [https://github.com/](https://github.com/)jascott4427/ncorr_2D_matlab_2025_fix.git
-cd ncorr_2D_matlab
+git clone https://github.com/jascott4427/ncorr_2D_matlab_2025_fix.git
+cd ncorr_2D_matlab_2025_fix
 addpath(pwd);
-ncorr;
+savepath; % Optional: keeps ncorr in your path for future sessions
+handles_ncorr = ncorr;
 ```
 ## MATLAB 2025 Compatibility and WebGL
 
