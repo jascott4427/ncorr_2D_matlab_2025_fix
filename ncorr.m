@@ -174,15 +174,27 @@ classdef ncorr < handle
             end
                         
             % Initialize opengl ------------------------------------------%
-            % In earlier versions of Matlab this will fix inverted plots
-            % Plotting tools are also run based on opengl
+            % Original Ncorr code fails on 2025 MATLAB as opengl is swapped
+            % for webgl. This code fixes this
             if (ispc)
-                data_opengl = opengl('data');
-                if (~data_opengl.Software)
-                    % Set opengl to software
-                    opengl('software'); 
+                try
+                    if verLessThan('matlab', '25.1')
+                        % Only try to force software rendering on older versions
+                        % where the 'inverted plot' bug actually exists.
+                        data_opengl = opengl('data');
+                        if (~data_opengl.Software)
+                            opengl('software'); 
+                        end
+                    else
+                        % For 2025+, we initialize the variable so the script doesn't crash,
+                        % but we DON'T try to set the renderer, avoiding the warning.
+                        data_opengl = struct('Software', true, 'Vendor', 'WebGL', 'Renderer', 'WebGL');
+                        fprintf('Ncorr: MATLAB 2025+ detected. Skipping legacy renderer toggle.\n');
+                    end
+                catch
+                    data_opengl = struct('Software', true); 
                 end
-            end                
+            end         
             
             % Start timer to fetch name of the handle that points to ncorr.
             % Use a timer because, to my knowledge, there isn't a callback
